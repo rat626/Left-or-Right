@@ -36,6 +36,10 @@ Plots of the mu band power in electrodes C3 and C4 during the epochs correspondi
 
 
 
+
+
+
+
   - **Part 2a**: Converting the epoch data into X and Y arrays - X contains average band power for left hand and right hand epochs[actual] - left and right are then stacked - after which the Y array is used to label the rows of the array with a 0(if left fist opened), or 1(if right fist opened)
 
 
@@ -55,8 +59,14 @@ Diagram of how the X and Y arrays would be processed together - X contains mu ba
     <img width="697" height="419" alt="Screenshot 2025-07-24 at 1 43 05 PM" src="https://github.com/user-attachments/assets/53d20fc9-ffa6-47fd-bdf0-c1ebd915abf4" />
 
 
+
+
+
      Results of KNN classifier on **training data**
     - (~0.58 accuracy, 11 total correct predictions(7 act left pred left, 4 act right pred right)
+
+
+
 
     
     <img width="656" height="404" alt="Screenshot 2025-07-24 at 1 44 34 PM" src="https://github.com/user-attachments/assets/a401e543-fede-4fb1-914f-cc2601b51d56" />
@@ -64,6 +74,10 @@ Diagram of how the X and Y arrays would be processed together - X contains mu ba
 
      Results of KNN classifier on **testing data(imagined left/right movement) - benchmark**
     - (~0.53 accuracy, 40 total correct predictions(7 act left pred left, 33 act right pred right)
+
+
+
+
 
 
 
@@ -81,6 +95,10 @@ Diagram of how the X and Y arrays would be processed together - X contains mu ba
     <img width="1402" height="51" alt="Screenshot 2025-07-24 at 1 49 41 PM" src="https://github.com/user-attachments/assets/eb90de87-9cf8-4155-8ed2-8d75df1bce78" />
     
       Print output of the electrodes that had the highest right-left difference, and lowest right - left difference for the actual movement data
+
+
+
+
 
 
   - **Part 4**: Created condensed function to process each subject's data, compiled the data for participants 14, 15, 16, 17, and 18 into the X and Y arrays, and reran the KNN classifier
