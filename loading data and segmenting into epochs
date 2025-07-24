@@ -5,12 +5,10 @@ drive.mount('/content/drive')
 
 
 
-
-raw.annotations
 #<Annotations | 30 segments: TASK1T0 (1), TASK1T1 (2), TASK2T2 (3)> - each () number represents the event id
 #used to create epochs before each eventid
 
-
+raw.annotations
 events, event_id = mne.events_from_annotations(raw)
 print(event_id)
 epochs = mne.Epochs(
