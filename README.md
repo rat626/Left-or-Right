@@ -19,7 +19,7 @@ the left fist (in runs 3, 4, 7, 8, 11, and 12; for Task 1 (real) and Task 2 (ima
 the right fist (in runs 3, 4, 7, 8, 11, and 12; Task 1 (real) and Task 2 (imagined))
 
 
-Based on these codes, I isolated the epochs, or time segments, which contained Task1T1, Task1T1 for the training phase, and Task2T1 and Task2T2 for the testing phase, setting each epoch to be 200 miliseconds before the movement(actual or imagined), and 2000 miliseconds after the movement, to ensure that each epoch contained the time when the movement itself occured, upon which the corresponding EEG data for that point in time in C3 and C4 could then be analyzed.
+Based on these codes, I isolated the epochs, or time segments, which contained Task1T1, Task1T2 for the training phase, and Task2T1 and Task2T2 for the testing phase, setting each epoch to be 200 miliseconds before the movement(actual or imagined), and 2000 miliseconds after the movement, to ensure that each epoch contained the time when the movement itself occured, upon which the corresponding EEG data for that point in time in C3 and C4 could then be analyzed.
 
 
 For the training data, I used run 4 in Task 1 T1 and Task 1 T2 to capture the actual left and right fist movement. When testing the KNN classifier on the imagined movement, I then used run 4 in Task 2 T1 and Task 2 T2, corresponding to the imagined left and right fist movement, for participant 15(later added 14, 16, 17, and 18)
