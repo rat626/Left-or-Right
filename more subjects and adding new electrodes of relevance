@@ -1,0 +1,78 @@
+channels_to_use = ['C3', 'C4', 'Po8', 'T8', 'Fc5', 'F7']
+
+#Condensed version of previous code blocks used to loop through each subject's data and make X and Y arrays
+def process_subject(filepath, event_id_map={'TASK2T1': 0, 'TASK2T2': 1}):
+    raw = mne.io.read_raw_eeglab(filepath, preload=True)
+
+    # Get events and create epochs
+    events, event_id = mne.events_from_annotations(raw)
+    epochs = mne.Epochs(
+        raw,
+        events,
+        event_id=event_id,
+        tmin=-0.2,
+        tmax=2.0,
+        baseline=(None, 0),
+        preload=True
+    )
+
+    # Bandpass filter to isolate mu rhythm
+    epochs_filtered = epochs.copy().filter(8., 12.)
+    if 'TASK2T1' in epochs_filtered.event_id:
+      epochs_filtered['TASK2T1'].save('epochs_imagined_left-epo.fif', overwrite=True)
+
+    if 'TASK2T2' in epochs_filtered.event_id:
+      epochs_filtered['TASK2T2'].save('epochs_imagined_right-epo.fif', overwrite=True)
+
+
+
+    # Get data for imagined left and right hand movement (TASK2T1 = left, TASK2T2 = right)
+    data_X = []
+    data_y = []
+
+    for label, y_val in event_id_map.items():
+        if label in epochs_filtered.event_id:
+            epochs_task = epochs_filtered[label]
+            data = epochs_task.get_data(picks=channels_to_use)
+            power = np.mean(data ** 2, axis=2)
+            data_X.append(power)
+            data_y.extend([y_val] * len(power))
+
+    # Combine all data for this subject
+    if data_X:
+        X = np.vstack(data_X)
+        y = np.array(data_y)
+        return X, y
+    else:
+        return None, None
+
+
+
+#Now using predefined processubject function to loop through data on subjects 14, 15, 16, 14, and 18
+subjects = ['sub-014', 'sub-015', 'sub-016', 'sub-017', 'sub-018']
+run = 'task-motion_run-4_eeg.set'
+base_path = '/content/drive/MyDrive/EEG/ImaginedMovement'
+
+X_imagery_all = []
+y_imagery_all = []
+
+event_id_map = {'TASK2T1': 0, 'TASK2T2': 1}  # left vs right imagery
+
+for subj in subjects:
+    filepath = os.path.join(base_path, f'{subj}_{run}')
+    print("Trying:", filepath)
+    if not os.path.exists(filepath):
+        print(f"File not found: {filepath}")
+        continue
+
+    X_subj, y_subj = process_subject(filepath, event_id_map=event_id_map)
+    if X_subj is not None:
+        X_imagery_all.append(X_subj)
+        y_imagery_all.append(y_subj)
+
+# Combine all imagined movement data
+X_imagery = np.vstack(X_imagery_all)
+y_imagery = np.hstack(y_imagery_all)
+
+print("Imagery X shape:", X_imagery.shape)
+print("Imagery y shape:", y_imagery.shape)
