@@ -28,20 +28,6 @@ X_right = compute_band_power(data_right)
 #X_right - 8 rows(8 trials) each with mu band power in C3 and C4
 
 
-# Combine features and labels
-X = np.vstack([X_left, X_right])
-#X is now the combined X_left and X_right array
-
-#Trial 1: C3_mu, C4_mu  ← left-hand trial
-#Trial 2: C3_mu, C4_mu  ← left-hand trial
-...
-#Trial 7: C3_mu, C4_mu  ← left-hand trial
-#Trial 8: C3_mu, C4_mu  ← right-hand trial
-...
-#Trial 15: C3_mu, C4_mu ← right-hand trial
-
-
-
 #This is the shape of the array - 14 bc it makes 1 trial per movement - so 7 left 7 right - and then a 15th for the 8th right
 
 y = np.array([0] * len(X_left) + [1] * len(X_right))  # 0 = left hand, 1 = right hand
