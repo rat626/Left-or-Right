@@ -1,4 +1,4 @@
-<img width="699" height="592" alt="Screenshot 2025-07-24 at 1 24 46 PM" src="https://github.com/user-attachments/assets/272365fb-39dc-424c-8567-5e5bd9fe1a4a" /># Left-or-Right
+#Left-or-Right
 This project involves using KNN and Logistic Regression models to classify epochs of data from a motor imagery dataset to classify whether an intended movement was in the left or right direction.
 
 I used an open source dataset made by the Wadsworth Center BCI R & D program(https://openneuro.org/datasets/ds004362/versions/1.0.0), which contained several trials of participants opening and closing their left and right fists according to an indication on a screen, as well as trials of them imagining opening their left or right fist in the direction corresponding to the on - screen cue. 
