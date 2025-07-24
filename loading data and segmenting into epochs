@@ -1,0 +1,55 @@
+!pip install mne
+import mne;
+from google.colab import drive
+drive.mount('/content/drive')
+
+
+
+
+raw.annotations
+#<Annotations | 30 segments: TASK1T0 (1), TASK1T1 (2), TASK2T2 (3)> - each () number represents the event id
+#used to create epochs before each eventid
+
+
+events, event_id = mne.events_from_annotations(raw)
+print(event_id)
+epochs = mne.Epochs(
+    raw,
+    events,
+    event_id=event_id,
+    tmin=-0.2,     # 200ms before the event
+    tmax=2.0,      # 2000ms after the event
+    baseline=(None, 0),
+    preload=True
+)
+
+
+import matplotlib.pyplot as plt
+plt.close('all')
+
+#epochs.plot()
+epochs_left = epochs['TASK1T1']
+epochs_right = epochs['TASK1T2']
+#epochs_rest = epochs['TASK2T0']
+
+epochs_left.average().plot()
+epochs_right.average().plot()
+
+
+#extracting epochs with the mu frequency(8-12 Hz)
+#There is a mu suppression in the C3 electrode when right hand is moved
+#There is mu suppression in C4 when left hand is moved
+
+epochs_filtered = epochs.copy().filter(8., 12.)
+epochs_filtered['TASK1T1'].save('epochs_actual_left-epo.fif', overwrite=True)
+epochs_filtered['TASK1T2'].save('epochs_actual_right-epo.fif', overwrite=True)
+
+epochs_left = epochs_filtered['TASK1T1']
+epochs_right = epochs_filtered['TASK1T2']
+
+# Pick only C3 and C4 electrodes - uses previously made epochs_left and epochs_right and only takes these channels
+epochs_left_channelz = epochs_left.copy().pick_channels(['C3', 'C4'])
+epochs_right_channelz = epochs_right.copy().pick_channels(['C3', 'C4'])
+
+epochs_left_channelz.average().plot(window_title='Left Hand Actual Movement - C3 & C4 (Mu Band)')
+epochs_right_channelz.average().plot(window_title='Right Hand Actual Movement - C3 & C4 (Mu Band)')
