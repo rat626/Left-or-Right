@@ -1,4 +1,4 @@
-#Left-or-Right
+# Left-or-Right
 This project involves using KNN and Logistic Regression models to classify epochs of data from a motor imagery dataset to classify whether an intended movement was in the left or right direction.
 
 I used an open source dataset made by the Wadsworth Center BCI R & D program(https://openneuro.org/datasets/ds004362/versions/1.0.0), which contained several trials of participants opening and closing their left and right fists according to an indication on a screen, as well as trials of them imagining opening their left or right fist in the direction corresponding to the on - screen cue. 
@@ -37,39 +37,55 @@ Plots of the mu band power in electrodes C3 and C4 during the epochs correspondi
 
 
   - **Part 2a**: Converting the epoch data into X and Y arrays - X contains average band power for left hand and right hand epochs[actual] - left and right are then stacked - after which the Y array is used to label the rows of the array with a 0(if left fist opened), or 1(if right fist opened)
+
+
 <img width="687" height="498" alt="Screenshot 2025-07-24 at 1 30 06 PM" src="https://github.com/user-attachments/assets/a91a5e10-be7f-4d0f-bbd4-af4b81ee80d9" />
+
+
 Diagram of how the X and Y arrays would be processed together - X contains mu band power from C3 and C4 during actual left and right fist movement epochs, and Y labels each row with 0 or 1 depending on the direction
 
 
   - **Part 2b**: Split the data into training and testing, trained KNN classifier on it, and obtained results(accuracy, precision, confusion matrix, recall, f1 score)
+    
     <img width="725" height="277" alt="Screenshot 2025-07-24 at 1 35 23 PM" src="https://github.com/user-attachments/assets/1a9397d7-2953-4ffb-b35b-b2ad4cbddba4" />
+    
     Line graph showing how the number of neighbors needed to classify a point as right/left affects accuracy, alongside a diagram of how KNN classification works
 
     
     <img width="697" height="419" alt="Screenshot 2025-07-24 at 1 43 05 PM" src="https://github.com/user-attachments/assets/53d20fc9-ffa6-47fd-bdf0-c1ebd915abf4" />
-    Results of KNN classifier on **training data**
+
+
+     Results of KNN classifier on **training data**
     - (~0.58 accuracy, 11 total correct predictions(7 act left pred left, 4 act right pred right)
 
     
     <img width="656" height="404" alt="Screenshot 2025-07-24 at 1 44 34 PM" src="https://github.com/user-attachments/assets/a401e543-fede-4fb1-914f-cc2601b51d56" />
-    Results of KNN classifier on **testing data(imagined left/right movement) - benchmark**
+
+
+     Results of KNN classifier on **testing data(imagined left/right movement) - benchmark**
     - (~0.53 accuracy, 40 total correct predictions(7 act left pred left, 33 act right pred right)
 
 
 
   - **Part 3**: Created topomaps displaying the difference between right - left actual movement, and right - left imagined movement, and calculated the electrodes with the 2 highest mu power difference(indicates the electrodes with the highest right mu power), and the electrodes with the 2 lowest mu power difference(indicates electrodes with highest left mu power)
-<img width="802" height="511" alt="Screenshot 2025-07-24 at 1 46 11 PM" src="https://github.com/user-attachments/assets/aa778ec5-e727-4834-a145-916bf58cb8e7" />
-Difference topomaps of actual movement(right - left) and imagined movement(right - left), with overlaps in high and low mu power differences shown on the EEG map
-- High difference electrodes of interest(P8, **T8**, CP4, CP6, Po4, **Po8**)
-- Low difference electrodes of interest(**F7**, F5, FT7, **FC5**)
-- 
-<img width="1402" height="51" alt="Screenshot 2025-07-24 at 1 49 41 PM" src="https://github.com/user-attachments/assets/eb90de87-9cf8-4155-8ed2-8d75df1bce78" />
-Print output of the electrodes that had the highest right-left difference, and lowest right - left difference for the actual movement data
+
+    
+      <img width="802" height="511" alt="Screenshot 2025-07-24 at 1 46 11 PM" src="https://github.com/user-attachments/assets/aa778ec5-e727-4834-a145-916bf58cb8e7" />
+
+
+      Difference topomaps of actual movement(right - left) and imagined movement(right - left), with overlaps in high and low mu power differences shown on the EEG map
+        - High difference electrodes of interest(P8, **T8**, CP4, CP6, Po4, **Po8**)
+        - Low difference electrodes of interest(**F7**, F5, FT7, **FC5**)
+
+  
+    <img width="1402" height="51" alt="Screenshot 2025-07-24 at 1 49 41 PM" src="https://github.com/user-attachments/assets/eb90de87-9cf8-4155-8ed2-8d75df1bce78" />
+    
+      Print output of the electrodes that had the highest right-left difference, and lowest right - left difference for the actual movement data
 
 
   - **Part 4**: Created condensed function to process each subject's data, compiled the data for participants 14, 15, 16, 17, and 18 into the X and Y arrays, and reran the KNN classifier
-    <img width="771" height="471" alt="Screenshot 2025-07-24 at 1 50 42 PM" src="https://github.com/user-attachments/assets/9e26bfb5-f950-45a3-9d89-40d7f7f12ba1" />
-    Comparison of old and new classifier(previous benchmark compared to current classifier output with added participants and new electrodes)
+      <img width="771" height="471" alt="Screenshot 2025-07-24 at 1 50 42 PM" src="https://github.com/user-attachments/assets/9e26bfb5-f950-45a3-9d89-40d7f7f12ba1" />
+      Comparison of old and new classifier(previous benchmark compared to current classifier output with added participants and new electrodes)
 
 The end results of the KNN classifier with all the included electrodes and subjects 14, 15, 16, 17, and 18(see final_results image) demonstrated 0.4% improvement in accuracy, a higher number of correct predictions for imagined left hand movement, and higher precision and recall compared to the original KNN training results, which were only trained on electrodes C3 and C4 using the data from only participant 15. 
 
