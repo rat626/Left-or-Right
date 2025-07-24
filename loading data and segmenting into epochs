@@ -4,11 +4,13 @@ from google.colab import drive
 drive.mount('/content/drive')
 
 
+raw = mne.io.read_raw_eeglab('/content/drive/MyDrive/EEG/Actual Movement/sub-015_task-motion_run-3_eeg.set', preload=True)
 
+raw.annotations
 #<Annotations | 30 segments: TASK1T0 (1), TASK1T1 (2), TASK2T2 (3)> - each () number represents the event id
 #used to create epochs before each eventid
 
-raw.annotations
+
 events, event_id = mne.events_from_annotations(raw)
 print(event_id)
 epochs = mne.Epochs(
@@ -20,7 +22,6 @@ epochs = mne.Epochs(
     baseline=(None, 0),
     preload=True
 )
-
 
 import matplotlib.pyplot as plt
 plt.close('all')
@@ -51,3 +52,4 @@ epochs_right_channelz = epochs_right.copy().pick_channels(['C3', 'C4'])
 
 epochs_left_channelz.average().plot(window_title='Left Hand Actual Movement - C3 & C4 (Mu Band)')
 epochs_right_channelz.average().plot(window_title='Right Hand Actual Movement - C3 & C4 (Mu Band)')
+
