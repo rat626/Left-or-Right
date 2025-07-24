@@ -1,0 +1,77 @@
+import numpy as np
+
+# Use the filtered data from Task 1 (actual movement)
+# These are already filtered to the 8–12 Hz mu band
+epochs_left = epochs_filtered['TASK1T1']
+epochs_right = epochs_filtered['TASK1T2']
+
+print(len(epochs_left))   #output- 7 - means there are 7 trials of left hand movement
+print(len(epochs_right)) #output - 8 - meand there are 8 trials of right hand movement
+
+
+# Extract data as numpy arrays
+# Shape: (n_epochs, n_channels, n_times)
+data_left = epochs_left.get_data(picks=['C3', 'C4'])
+data_right = epochs_right.get_data(picks=['C3', 'C4'])
+
+# Function to compute average power (mean squared voltage) - creates a function thru def that's used to make X_left and X_right
+def compute_band_power(data):
+    return np.mean(data ** 2, axis=2)
+
+# Compute power per epoch
+X_left = compute_band_power(data_left)
+X_right = compute_band_power(data_right)
+
+#X_left and X_right are numpy arrays
+
+#X_left - 7 rows(7 trials) each with mu band power in C3 and C4 for that trial
+#X_right - 8 rows(8 trials) each with mu band power in C3 and C4
+
+
+# Combine features and labels
+X = np.vstack([X_left, X_right])
+#X is now the combined X_left and X_right array
+
+#Trial 1: C3_mu, C4_mu  ← left-hand trial
+#Trial 2: C3_mu, C4_mu  ← left-hand trial
+...
+#Trial 7: C3_mu, C4_mu  ← left-hand trial
+#Trial 8: C3_mu, C4_mu  ← right-hand trial
+...
+#Trial 15: C3_mu, C4_mu ← right-hand trial
+
+
+
+#This is the shape of the array - 14 bc it makes 1 trial per movement - so 7 left 7 right - and then a 15th for the 8th right
+
+y = np.array([0] * len(X_left) + [1] * len(X_right))  # 0 = left hand, 1 = right hand
+
+
+
+
+
+from sklearn.model_selection import train_test_split
+
+
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+
+# 1. Split the data into train and test sets (optional but good for checking overfitting)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=42)
+
+#This makes it so that 75% of the data is used for training, 25% is used for testing
+
+# 2. Create the KNN classifier (try k=3 as a start)
+knn = KNeighborsClassifier(n_neighbors=3)
+
+# 3. Train the model
+knn.fit(X_train, y_train)
+
+# 4. Predict on the test set
+y_pred = knn.predict(X_test)
+
+# 5. Evaluate performance
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("\nConfusion Matrix:\n", confusion_matrix(y_test, y_pred))
+print("\nClassification Report:\n", classification_report(y_test, y_pred))
