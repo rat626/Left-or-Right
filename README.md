@@ -91,6 +91,9 @@ Diagram of how the X and Y arrays would be processed together - X contains mu ba
         - High difference electrodes of interest(P8, **T8**, CP4, CP6, Po4, **Po8**)
         - Low difference electrodes of interest(**F7**, F5, FT7, **FC5**)
 
+
+Here, electrodes with the highest difference likely have higher mu suppression in the left fist trials(since left lower than right), and electrodes with the lowest difference have higher mu suppresson in the right fist trials(since left is higher than right - if difference is negative )
+
   
     <img width="1402" height="51" alt="Screenshot 2025-07-24 at 1 49 41 PM" src="https://github.com/user-attachments/assets/eb90de87-9cf8-4155-8ed2-8d75df1bce78" />
     
